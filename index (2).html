@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pandai · Community Innovation Spotlight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141029;--ink-soft:#2c2748;--paper:#fff;--mist:#f3f2fb;
+    --coral:#ff5436;--teal:#10b3a3;--teal-deep:#0c8c80;--gold:#ffc83d;
+    --line:rgba(20,16,41,.10);--muted:#6a6584;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+  .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+  .display{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em;line-height:1.05}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:14px}
+  section{padding:74px 0}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  .sec-head h2{font-size:clamp(1.8rem,7vw,2.7rem);font-weight:700;margin-bottom:14px}
+  .sec-head p{color:var(--muted);font-size:1.05rem;max-width:46ch}
+
+  /* HERO */
+  .hero{background:var(--ink);color:#fff;min-height:94vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding:80px 0 60px}
+  .hero .glow{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none}
+  .hero .g1{width:340px;height:340px;background:var(--coral);top:-90px;right:-80px}
+  .hero .g2{width:300px;height:300px;background:var(--teal);bottom:-110px;left:-90px}
+  .hero-inner{position:relative;z-index:2}
+  .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.22);border-radius:100px;padding:7px 15px;font-size:.78rem;font-weight:600;color:#cfcce6;margin-bottom:26px}
+  .badge .bdot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(16,179,163,.25)}
+  .hero h1{font-size:clamp(3.4rem,17vw,6.4rem);font-weight:700;margin-bottom:8px}
+  .hero h1 .my{color:var(--coral)}
+  .hero .tag{font-size:clamp(1.05rem,4.6vw,1.5rem);font-weight:600;color:#efeef8;max-width:30ch;margin-bottom:10px}
+  .hero .sub{font-size:1rem;color:#a8a4c4;max-width:42ch}
+  .scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#8e8ab0;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .scroll-cue span{width:1px;height:34px;background:linear-gradient(#8e8ab0,transparent);animation:drop 1.8s infinite}
+  @keyframes drop{0%{opacity:0;transform:translateY(-8px)}40%{opacity:1}100%{opacity:0;transform:translateY(8px)}}
+
+  /* PROBLEM */
+  .problem{background:var(--ink);color:#fff}
+  .problem .eyebrow{color:var(--gold)}
+  .problem p{color:#cbc8e0;font-size:1.12rem;max-width:44ch;margin-bottom:14px}
+  .problem .src{font-size:.82rem;color:#7d79a0}
+
+  /* ASK THE ROOM */
+  .ask-card{background:linear-gradient(150deg,#ff5436,#ff7a52);color:#fff;border-radius:22px;padding:30px 26px;margin-top:8px;box-shadow:0 20px 44px -26px rgba(255,84,54,.7)}
+  .ask-tag{display:inline-flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;background:rgba(255,255,255,.2);padding:6px 12px;border-radius:100px;margin-bottom:16px}
+  .ask-q{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.3rem,5vw,1.7rem);font-weight:600;line-height:1.25;margin-bottom:20px}
+  .ask-btn{border:none;background:#fff;color:var(--coral);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem;padding:13px 26px;border-radius:100px;cursor:pointer;transition:transform .15s}
+  .ask-btn:hover{transform:translateY(-2px)}
+  .ask-reveal{margin-top:20px;font-size:1.05rem;line-height:1.55;max-height:0;overflow:hidden;opacity:0;transition:max-height .6s ease,opacity .5s ease;border-top:1px solid rgba(255,255,255,.28)}
+  .ask-reveal.on{max-height:400px;opacity:1;padding-top:18px}
+  .ask-reveal strong{font-weight:700}
+
+  /* WHAT IS */
+  .cards{display:grid;gap:14px;margin-top:28px}
+  @media(min-width:560px){.cards{grid-template-columns:1fr 1fr}}
+  .fcard{border:1px solid var(--line);border-radius:18px;padding:22px;background:#fff;transition:transform .2s,box-shadow .2s}
+  .fcard:hover{transform:translateY(-3px);box-shadow:0 16px 34px -24px rgba(20,16,41,.45)}
+  .fcard .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(16,179,163,.12);color:var(--teal-deep);font-size:1.3rem;margin-bottom:14px}
+  .fcard h3{font-family:'Space Grotesk',sans-serif;font-size:1.12rem;font-weight:600;margin-bottom:6px}
+  .fcard p{font-size:.95rem;color:var(--muted)}
+
+  /* STORM */
+  .storm{background:var(--ink);color:#fff}
+  .storm .eyebrow{color:var(--gold)}
+  .storm .sec-head h2{color:#fff}
+  .storm .sec-head p{color:#a8a4c4}
+  .storm-stage{position:relative;overflow:hidden;border-radius:22px;background:#1d1840;border:1px solid rgba(255,255,255,.1);min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1rem;margin-top:26px}
+  .card-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .storm-core{position:relative;z-index:2;text-align:center}
+  .storm-core .lbl{font-size:.9rem;color:#a8a4c4;margin-bottom:8px}
+  .storm-count{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.6rem,13vw,4.6rem);font-weight:700;line-height:1;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .storm-rate{font-size:.9rem;color:var(--gold);margin-top:10px;height:20px}
+  .storm-btn{position:relative;z-index:2;margin-top:1.8rem;border:none;background:var(--coral);color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;padding:14px 30px;border-radius:100px;cursor:pointer;transition:transform .15s}
+  .storm-btn:hover{transform:translateY(-2px)}
+  .storm-foot{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+  .join-row{font-size:.88rem;color:#cbc8e0;height:20px;display:flex;align-items:center;gap:8px}
+  .join-row strong{color:#fff}
+  .mode-btn{border:1px solid rgba(255,255,255,.24);background:transparent;color:#cbc8e0;font-size:.8rem;padding:6px 13px;border-radius:100px;cursor:pointer}
+  .mode-btn:hover{border-color:rgba(255,255,255,.5)}
+  .qcard{position:absolute;white-space:nowrap;font-size:12px;padding:5px 11px;border-radius:9px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);color:#d7d4ea;opacity:0}
+
+  /* IMPACT */
+  .impact{background:linear-gradient(160deg,#0c8c80,#10b3a3);color:#fff}
+  .impact .eyebrow{color:#d4fff8}
+  .impact .sec-head h2{color:#fff}
+  .nums{display:grid;gap:8px;margin-top:30px}
+  @media(min-width:560px){.nums{grid-template-columns:1fr 1fr}}
+  .num{padding:24px 6px;border-top:1px solid rgba(255,255,255,.22)}
+  .num .v{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.4rem,10vw,3.4rem);font-weight:700;line-height:1}
+  .num .l{font-size:.95rem;color:#d9fffa;margin-top:8px;font-weight:500}
+
+  /* COMMUNITY */
+  .community .rows{margin-top:26px;display:grid;gap:14px}
+  .crow{border-left:3px solid var(--teal);padding:4px 0 4px 18px}
+  .crow .h{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.08rem;margin-bottom:3px}
+  .crow p{color:var(--muted);font-size:.97rem}
+  .editable{margin-top:24px;border:1.5px dashed var(--coral);border-radius:14px;padding:18px 20px;background:rgba(255,84,54,.04)}
+  .editable .tag{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:8px}
+  .editable p{font-size:.95rem;color:var(--ink-soft)}
+
+  /* CTA */
+  .cta{background:var(--ink);color:#fff;text-align:center}
+  .cta h2{font-size:clamp(2rem,8vw,3rem);font-weight:700;margin-bottom:14px}
+  .cta p{color:#a8a4c4;max-width:38ch;margin:0 auto 28px}
+  .cta-btn{display:inline-block;background:var(--coral);color:#fff;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;padding:16px 34px;border-radius:100px;transition:transform .15s}
+  .cta-btn:hover{transform:translateY(-2px)}
+  .foot{padding:30px 0 40px;text-align:center;color:#6a6584;font-size:.82rem;background:var(--ink)}
+  .foot .team{color:#a8a4c4;margin-top:4px}
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <div class="wrap hero-inner">
+      <span class="badge"><span class="bdot"></span>Community Innovation Spotlight</span>
+      <h1 class="display">Pandai<span class="my">.</span></h1>
+      <p class="tag">Quality education, unlocked for every Malaysian student.</p>
+      <p class="sub">A homegrown EdTech platform putting a personal tutor in every pocket — no matter the postcode or the income.</p>
+    </div>
+    <div class="scroll-cue">Scroll<span></span></div>
+  </header>
+
+  <section class="problem">
+    <div class="wrap">
+      <div class="reveal" style="margin-bottom:34px">
+        <div class="eyebrow">The problem</div>
+        <h2 class="display" style="font-size:clamp(1.8rem,7vw,2.7rem);margin-bottom:16px">Talent is everywhere. Support is not.</h2>
+        <p>Private tuition costs money. Good teachers cluster in cities. A student in a small town and a student in KL sit the same national exam with very unequal preparation.</p>
+        <p class="src">↳ Your group: drop one real statistic here on education inequality in Malaysia. It makes this land harder.</p>
+      </div>
+      <div class="ask-card reveal">
+        <span class="ask-tag"><i>✋</i> Ask the room</span>
+        <div class="ask-q">How much do you think one year of private tuition costs a Malaysian family?</div>
+        <button class="ask-btn" data-reveal="r1">Reveal the answer</button>
+        <div class="ask-reveal" id="r1">Let them shout guesses first — then reveal. <strong>Replace with a real figure your group finds.</strong> The point: for many families it's a serious chunk of monthly income, and that's exactly the gap Pandai closes.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="whatis">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">What it is</div>
+        <h2 class="display">A tutor that fits in a phone</h2>
+        <p>Pandai turns the syllabus into something students actually want to open.</p>
+      </div>
+      <div class="cards">
+        <div class="fcard reveal"><div class="ic">📚</div><h3>Interactive lessons</h3><p>Syllabus-aligned topics broken into short lessons students learn at their own pace.</p></div>
+        <div class="fcard reveal"><div class="ic">✍️</div><h3>Practice questions</h3><p>A huge bank of exam-style questions with instant feedback — learn from mistakes on the spot.</p></div>
+        <div class="fcard reveal"><div class="ic">🎯</div><h3>Study aids &amp; tracking</h3><p>Progress tracking that shows students exactly where they're weak and what to revise next.</p></div>
+        <div class="fcard reveal"><div class="ic">📱</div><h3>Anytime, anywhere</h3><p>Works on a normal phone with internet — no expensive tuition centre, no fixed schedule.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="storm">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">The scale</div>
+        <h2 class="display">Watch what "millions of questions" looks like</h2>
+        <p>Tap to start. In synced mode, the whole room taps and the counter climbs together.</p>
+      </div>
+      <div class="storm-stage reveal">
+        <div class="card-layer" id="cardLayer"></div>
+        <div class="storm-core">
+          <div class="lbl">Practice questions answered on Pandai</div>
+          <div class="storm-count" id="counter">0</div>
+          <div class="storm-rate" id="rate"></div>
+        </div>
+        <button class="storm-btn" id="stormBtn"><i>⚡</i>&nbsp;Start the storm</button>
+        <div class="storm-foot">
+          <span class="join-row" id="joinRow"></span>
+          <button class="mode-btn" id="modeBtn">Synced · room taps together</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="impact">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">The impact</div>
+        <h2 class="display">Numbers that show the reach</h2>
+      </div>
+      <div class="nums">
+        <div class="num reveal"><div class="v" data-target="900" data-suffix="K+">0</div><div class="l">Malaysian students helped</div></div>
+        <div class="num reveal"><div class="v" data-target="566" data-suffix="M+">0</div><div class="l">Practice questions completed</div></div>
+        <div class="num reveal"><div class="v" data-target="2020" data-plain="true">0</div><div class="l">Founded in Malaysia</div></div>
+        <div class="num reveal"><div class="v" data-target="100" data-suffix="%">0</div><div class="l">Built for the local syllabus</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="askroom2">
+    <div class="wrap">
+      <div class="ask-card reveal" style="background:linear-gradient(150deg,#0c8c80,#10b3a3);box-shadow:0 20px 44px -26px rgba(16,179,163,.7)">
+        <span class="ask-tag"><i>✋</i> Ask the room</span>
+        <div class="ask-q">If every student here had Pandai, who benefits the most — and why?</div>
+        <button class="ask-btn" data-reveal="r2" style="color:var(--teal-deep)">Reveal our take</button>
+        <div class="ask-reveal" id="r2">Take 2–3 answers from the room first. <strong>Then land your point:</strong> the biggest winners are students who can't afford tuition and those far from good teachers — the exact people the current system leaves behind.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="community">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Why it matters here</div>
+        <h2 class="display">What Pandai changes for our community</h2>
+      </div>
+      <div class="rows">
+        <div class="crow reveal"><div class="h">Levels the playing field</div><p>Students who can't afford tuition get the same quality practice as anyone else.</p></div>
+        <div class="crow reveal"><div class="h">Eases the cost on families</div><p>One affordable app replaces months of expensive private tuition fees.</p></div>
+        <div class="crow reveal"><div class="h">Reaches beyond the city</div><p>Any student with a phone and internet can access it, wherever they live.</p></div>
+      </div>
+      <div class="editable reveal">
+        <div class="tag">★ Your group fills this in — this is your marks</div>
+        <p>Name <em>your actual community</em> (your kampung, school, neighbourhood). How would Pandai be rolled out here specifically — through the school, a community centre, free access for B40 families? Be concrete. This is where "Community Relevance" (7%) is won or lost.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <h2 class="display">See it for yourself</h2>
+      <p>Explore Pandai and judge the impact on your own terms.</p>
+      <a class="cta-btn" href="https://pandai.my" target="_blank" rel="noopener">Visit pandai.my →</a>
+    </div>
+  </section>
+
+  <div class="foot">
+    <div>ENGF103 · Community Innovation Spotlight</div>
+    <div class="team">Presented by [your team names]</div>
+  </div>
+
+<script>
+/* reveal */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.16});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+/* counters */
+var counted=new WeakSet();
+var cio=new IntersectionObserver(function(es){es.forEach(function(e){
+  if(!e.isIntersecting||counted.has(e.target))return;counted.add(e.target);
+  var el=e.target,target=parseInt(el.dataset.target,10),suffix=el.dataset.suffix||"",plain=el.dataset.plain==="true",dur=1400,start=performance.now();
+  function tick(now){var p=Math.min((now-start)/dur,1),ease=1-Math.pow(1-p,3),val=Math.round(target*ease);el.textContent=plain?val:val.toLocaleString('en-US')+suffix;if(p<1)requestAnimationFrame(tick);}
+  requestAnimationFrame(tick);
+});},{threshold:.5});
+document.querySelectorAll('[data-target]').forEach(function(el){cio.observe(el);});
+
+/* ask-the-room reveals */
+document.querySelectorAll('[data-reveal]').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var t=document.getElementById(btn.dataset.reveal);
+    t.classList.toggle('on');
+    btn.textContent=t.classList.contains('on')?'Hide':btn.textContent.replace('Hide','Reveal the answer');
+  });
+});
+
+/* STORM */
+(function(){
+  var STORAGE=(typeof window!=='undefined'&&window.storage)?window.storage:null;
+  var synced=true,running=false,displayed=0,target=0,localTaps=0;
+  var TOTAL=566000000;
+  var sessionId=Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+  var counter=document.getElementById('counter'),rate=document.getElementById('rate'),stormBtn=document.getElementById('stormBtn'),modeBtn=document.getElementById('modeBtn'),cardLayer=document.getElementById('cardLayer'),joinRow=document.getElementById('joinRow');
+  var fmt=new Intl.NumberFormat('en-US');
+  var SAMPLE=["3 + 4 = ?","Sains","Sejarah 1957","H₂O","√81 = ?","B. Melayu","12 × 8","Add Maths","5² = ?","Geografi","Physics","Nombor perdana"];
+  function render(){counter.textContent=fmt.format(Math.round(displayed));}
+  function spawn(){var el=document.createElement('div');el.className='qcard';el.textContent=SAMPLE[Math.floor(Math.random()*SAMPLE.length)];var top=8+Math.random()*74,dur=2.4+Math.random()*1.8;el.style.top=top+'%';el.style.left='-30%';cardLayer.appendChild(el);var s=performance.now();function fly(now){var p=(now-s)/(dur*1000);if(p>=1){el.remove();return;}el.style.left=(-30+p*160)+'%';el.style.opacity=p<.15?(p/.15):(p>.85?(1-(p-.85)/.15):1);requestAnimationFrame(fly);}requestAnimationFrame(fly);}
+  async function readJoin(){if(!STORAGE||!synced)return null;try{var r=await STORAGE.list('storm:'+sessionId+':',true);return(r&&r.keys)?r.keys.length:0;}catch(e){return null;}}
+  async function regJoin(){if(!STORAGE||!synced){localTaps++;return;}try{var id=Date.now().toString(36)+Math.random().toString(36).slice(2,7);await STORAGE.set('storm:'+sessionId+':'+id,'1',true);}catch(e){localTaps++;}}
+  async function updateJoin(){var n=await readJoin();if(n===null){joinRow.innerHTML=synced?'<i>⚠</i> running solo — sync unavailable':'';}else if(n>0){joinRow.innerHTML='<span><strong>'+n+'</strong> in the room joined</span>';}else{joinRow.textContent='';}}
+  function loop(){if(!running)return;var diff=target-displayed;displayed+=diff*.06;if(diff<1)displayed=target;render();if(Math.random()<.5)spawn();requestAnimationFrame(loop);}
+  async function start(){await regJoin();var j=await readJoin();var mult=(j&&j>0)?j:(localTaps||1);target=Math.min(TOTAL,Math.round(TOTAL*Math.min(1,.35+mult*.14)));rate.textContent="≈ 6,500 answered every second, nationwide";if(!running){running=true;loop();}stormBtn.innerHTML='<i>⚡</i>&nbsp;Tap again to push it higher';updateJoin();}
+  stormBtn.addEventListener('click',start);
+  modeBtn.addEventListener('click',function(){synced=!synced;modeBtn.textContent=synced?'Synced · room taps together':'Solo · projector only';updateJoin();});
+  setInterval(function(){if(running&&synced)updateJoin();},4000);
+  render();
+})();
+</script>
+</body>
+</html>
